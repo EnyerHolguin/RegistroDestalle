@@ -1,0 +1,61 @@
+﻿<Window x:Class="Personaas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Personaas"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="72,35,0,0" VerticalAlignment="Top" Width="36"/>
+        <Label Content="Nombre" HorizontalAlignment="Left" Margin="72,66,0,0" VerticalAlignment="Top" Width="62"/>
+        <Label Content="Direccion" HorizontalAlignment="Left" Margin="72,97,0,0" VerticalAlignment="Top"/>
+        <Label Content="Cedula" HorizontalAlignment="Left" Margin="72,128,0,0" VerticalAlignment="Top"/>
+        <Label Content="F.Nacimiento" HorizontalAlignment="Left" Margin="249,127,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="DetalleDatagridView" Margin="0,211,343,79" HorizontalAlignment="Right" Width="385" IsSynchronizedWithCurrentItem="False" Background="#FFC5D1D1"/>
+        <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Margin="160,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
+        <TextBox x:Name="NombreTextBox" HorizontalAlignment="Left" Margin="160,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="298"/>
+        <TextBox x:Name="DireccionTextBox" HorizontalAlignment="Left" Margin="162,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295"/>
+        <TextBox x:Name="CedulaTextBox" HorizontalAlignment="Left" Margin="160,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
+        <DatePicker x:Name="FechaNacimientoDatePicker" HorizontalAlignment="Center" Margin="0,129,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Content="Agregar Telefono" HorizontalAlignment="Left" Margin="89,154,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="TelefonoTextBox" Content="Telefono:" HorizontalAlignment="Left" Margin="89,180,0,0" VerticalAlignment="Top"/>
+        <Label Content="Tipo:" HorizontalAlignment="Left" Margin="264,183,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="147,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112"/>
+        <TextBox x:Name="TipoTextBox" HorizontalAlignment="Left" Margin="305,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+        <Button x:Name="BuscarButton" Content=" Buscar" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="254,35,0,0" VerticalAlignment="Top" Height="26" Width="64" FontWeight="UltraBlack" FontStyle="Normal" FontStretch="Normal">
+            <Button.Background>
+                <ImageBrush ImageSource="30920.png" AlignmentX="Left" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="AgregarButton" Content="" HorizontalAlignment="Left" Margin="424,186,0,0" VerticalAlignment="Top" Width="33" Height="16" Click="AgregarButton_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/mas.png" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="NuevoButton" Content="" HorizontalAlignment="Left" Margin="115,389,0,0" VerticalAlignment="Top" Width="55" Height="40" Click="NuevoButton_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="new.jpg" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="GuardarButton" Content="" HorizontalAlignment="Left" Margin="235,389,0,0" VerticalAlignment="Top" Height="40" Width="54" Click="GuardarButton_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="gu.png" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="EliminarButton" Content="" HorizontalAlignment="Center" Margin="0,389,0,0" VerticalAlignment="Top" Height="40" Width="56" Click="EliminarButton_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="eliminar.jpg" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <TextBox x:Name="Remover" HorizontalAlignment="Left" Margin="72,360,0,0" Text="     Remover fila" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="Remover_TextChanged">
+            <TextBox.Background>
+                <ImageBrush ImageSource="x.png" AlignmentX="Left" Stretch="Uniform"/>
+            </TextBox.Background>
+        </TextBox>
+
+    </Grid>
+</Window>
