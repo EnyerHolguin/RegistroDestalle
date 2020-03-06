@@ -43,11 +43,17 @@ namespace Personaas.BLL
                 foreach (var item in Anterior.Telefono)
                 {
                     if (persona.Telefono.Exists(d => d.Id == item.Id))
-                        db.Entry(item).State = EntityState.Modified;
+                        db.Entry(item).State = EntityState.Deleted;
+                }
+                foreach (var item in persona.Telefono)
+                {
+                    var estado = item.Id > 0 ? EntityState.Modified : EntityState.Added;
+                    db.Entry(item).State = estado;
+
                 }
                 db.Entry(persona).State = EntityState.Modified;
                 paso = (db.SaveChanges() > 0);
-
+                   
             }
             catch (Exception)
             {
@@ -86,9 +92,9 @@ namespace Personaas.BLL
 
             try
             {
-                persona = db.Personas.Find(id);
-
-                persona.Telefono.Count();
+                persona = db.Personas.Include(x => x.Telefono)
+                    .Where(x => x.PersonaId == id)
+                    .SingleOrDefault();
             }
             catch (Exception)
             {

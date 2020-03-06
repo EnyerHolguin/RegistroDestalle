@@ -22,18 +22,18 @@ namespace Personaas
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<TelefonosDetalle> Detalle { get; set; }
+        Personas persona = new Personas();
 
         public MainWindow()
         {
             InitializeComponent();
-            this.Detalle = new List<TelefonosDetalle>();
+            this.DataContext =  persona;
 
         }
             private void CargarGrid()
             {
-                DetalleDatagridView.ItemsSource = null;
-                DetalleDatagridView.ItemsSource = this.Detalle;
+            this.DataContext = null;
+            this.DataContext = persona;
 
             }
             private void Limpiar()
@@ -44,95 +44,64 @@ namespace Personaas
                 DireccionTextBox.Text = string.Empty;
                 CedulaTextBox.Text = string.Empty;
                 FechaNacimientoDatePicker.SelectedDate = DateTime.Now;
+                DetalleDatagridView.ItemsSource = new List<TelefonosDetalle>();
 
-                this.Detalle = new List<TelefonosDetalle>();
-                CargarGrid();
+                
             }
 
-            private Personas LlenaClase()
+        private bool Validar()
+        {
+            bool paso = true;
+
+            if (string.IsNullOrWhiteSpace(IdTextBox.Text))
+                paso = false;
+            else
             {
-                Personas persona = new Personas();
-                persona.PersonaId = Convert.ToInt32(IdTextBox.Text);
-                persona.Nombre = NombreTextBox.Text;
-                persona.Direccion = DireccionTextBox.Text;
-                persona.Cedula = CedulaTextBox.Text;
-                persona.FechaNacimiento = FechaNacimientoDatePicker.DisplayDate;
-
-                persona.Telefono = this.Detalle;
-
-                return persona;
-            }
-
-            private void LlenaCampos(Personas persona)
-            {
-                IdTextBox.Text = Convert.ToString(persona.PersonaId);
-                NombreTextBox.Text = persona.Nombre;
-                DireccionTextBox.Text = persona.Nombre;
-                CedulaTextBox.Text = persona.Nombre;
-                FechaNacimientoDatePicker.DisplayDate = persona.FechaNacimiento;
-
-                this.Detalle = persona.Telefono;
-                CargarGrid();
-            }
-
-            private bool Validar()
-            {
-                bool paso = true;
-
-                if (IdTextBox.Text == string.Empty)
+                try
                 {
-                    MessageBox.Show("El campo no puede estar vacio");
-                    IdTextBox.Focus();
+                    int i = Convert.ToInt32(IdTextBox.Text);
+                }
+                catch (FormatException)
+                {
                     paso = false;
                 }
-                if (string.IsNullOrWhiteSpace(DireccionTextBox.Text))
-                {
-                    MessageBox.Show("El campo no puede estar vacio");
-                    DireccionTextBox.Focus();
-                    paso = false;
-                }
-                if (string.IsNullOrWhiteSpace(CedulaTextBox.Text))
-                {
-                    MessageBox.Show("El campo no puede estar vacio");
-                    CedulaTextBox.Focus();
-                    paso = false;
-                }
-                if (this.Detalle.Count == 0)
-                {
-                    MessageBox.Show( "Debe agregar algun telefono");
-                    TelefonoTextBox.Focus();
-                }
-
-                return paso;
             }
 
-            private void AgregarButton_Click(object sender, RoutedEventArgs e)
+            if (string.IsNullOrWhiteSpace(NombreTextBox.Text))
+                paso = false;
+            else
             {
-                if (DetalleDatagridView.DataContext != null)
-                    this.Detalle = (List<TelefonosDetalle>)DetalleDatagridView.DataContext;
-                this.Detalle.Add(
-                new TelefonosDetalle(
-                    Id: 0,
-                    Telefono: Convert.ToInt32(TelefonoTextBox.Content),
-                    Tipo: TipoTextBox.Text
-                      )
-                    );
+                foreach (var caracter in NombreTextBox.Text)
+                {
+                    if (!char.IsLetter(caracter))
+                        paso = false;
+                }
+            }
+
+            
+
+            if (paso == false)
+                MessageBox.Show("El Datos es invalidos");
+
+            return paso;
+        }
+
+
+
+        private void AgregarButton_Click(object sender, RoutedEventArgs e)
+            {
+            persona.Telefono.Add(new TelefonosDetalle(Telefonotextbox.Text, TipoTextBox.Text));
                 CargarGrid();
-                TelefonoTextBox.Focus();
+
+                Telefonotextbox.Clear();
                 TipoTextBox.Clear();
 
+                Telefonotextbox.Focus();
+
 
             }
 
-            private void Remover_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                if (DetalleDatagridView.Row.Count > 0 && DetalleDatagridView.CurrentColumn != null)
-                {
-                    Detalle.RemoveAt(DetalleDatagridView.CurrentColumn.DisplayIndex);
-                    CargarGrid();
-                }
-
-            }
+            
 
             private void NuevoButton_Click(object sender, RoutedEventArgs e)
             {
@@ -141,49 +110,87 @@ namespace Personaas
 
             private void GuardarButton_Click(object sender, RoutedEventArgs e)
             {
-                Personas persona;
+                
                 bool paso = false;
+
                 if (!Validar())
                     return;
 
-                persona = LlenaClase();
-                if (Convert.ToInt32(IdTextBox.Text) == 0)
+                if(persona.PersonaId == 0)
+            {
+                paso = PersonasBLL.Guardar(persona);
+            }
+                else
+            {
+                if (ExisteEnLaBaseDeDAto())
                 {
-                    paso = PersonasBLL.Guardar(persona);
-                    MessageBox.Show("Guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    paso = PersonasBLL.Modificar(persona);
                 }
                 else
                 {
-                    MessageBox.Show("No fue posible Guardar!!", " Fallo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("No se puede modificar la persona que no existe");
+                    return;
                 }
-
             }
+                if(paso)
+            {
+                Limpiar();
+                MessageBox.Show("Guardado");
+            }
+            else
+            {
+                MessageBox.Show("No se pudo guardar");
+            }
+        }
             private bool ExisteEnLaBaseDeDAto()
             {
-                Personas persona = PersonasBLL.Buscar(Convert.ToInt32(IdTextBox.Text));
+                Personas personaAnterior = PersonasBLL.Buscar(persona.PersonaId);
                 return (persona != null);
 
             }
 
 
-
-
             private void EliminarButton_Click(object sender, RoutedEventArgs e)
             {
-                int id;
-                int.TryParse(IdTextBox.Text, out id);
-
-                Limpiar();
-                if (!ExisteEnLaBaseDeDAto())
+        
+                if (PersonasBLL.Eliminar(persona.PersonaId))
                 {
-                    MessageBox.Show("No se puede eliminar un prestamo inexistente", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Eliminado");
                 }
                 else
                 {
-                    if (PersonasBLL.Eliminar(id))
-                        MessageBox.Show("Eliminado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    
+                        MessageBox.Show("si no existe no se puede eliminar");
                 }
             }
+
+        private void BuscarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Personas personaAnterior = PersonasBLL.Buscar(persona.PersonaId);
+
+            if (persona != null)
+            {
+                persona = personaAnterior;
+                CargarGrid();
+            }
+            else
+            {
+                MessageBox.Show("No encontrado");
+            }
+         }
+
+        private void Removerbutton_Click(object sender, RoutedEventArgs e)
+        {
+            if(DetalleDatagridView.Items.Count > 1 && DetalleDatagridView.SelectedIndex < DetalleDatagridView.Items.Count - 1 )
+            {
+                persona.Telefono.RemoveAt(DetalleDatagridView.SelectedIndex);
+                CargarGrid();
+            }
         }
+
+
+
+
+    }
     }
 

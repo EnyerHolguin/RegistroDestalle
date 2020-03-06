@@ -22,11 +22,11 @@
         <TextBox x:Name="CedulaTextBox" HorizontalAlignment="Left" Margin="160,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
         <DatePicker x:Name="FechaNacimientoDatePicker" HorizontalAlignment="Center" Margin="0,129,0,0" VerticalAlignment="Top" Width="116"/>
         <Label Content="Agregar Telefono" HorizontalAlignment="Left" Margin="89,154,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="TelefonoTextBox" Content="Telefono:" HorizontalAlignment="Left" Margin="89,180,0,0" VerticalAlignment="Top"/>
+        <Label Content="Telefono:" HorizontalAlignment="Left" Margin="89,180,0,0" VerticalAlignment="Top"/>
         <Label Content="Tipo:" HorizontalAlignment="Left" Margin="264,183,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="147,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112"/>
+        <TextBox x:Name="Telefonotextbox" HorizontalAlignment="Left" Margin="147,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112"/>
         <TextBox x:Name="TipoTextBox" HorizontalAlignment="Left" Margin="305,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
-        <Button x:Name="BuscarButton" Content=" Buscar" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="254,35,0,0" VerticalAlignment="Top" Height="26" Width="64" FontWeight="UltraBlack" FontStyle="Normal" FontStretch="Normal">
+        <Button x:Name="BuscarButton" Content=" Buscar" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="254,35,0,0" VerticalAlignment="Top" Height="26" Width="64" FontWeight="UltraBlack" FontStyle="Normal" FontStretch="Normal" Click="BuscarButton_Click">
             <Button.Background>
                 <ImageBrush ImageSource="30920.png" AlignmentX="Left" Stretch="Uniform"/>
             </Button.Background>
@@ -51,11 +51,11 @@
                 <ImageBrush ImageSource="eliminar.jpg" Stretch="Uniform"/>
             </Button.Background>
         </Button>
-        <TextBox x:Name="Remover" HorizontalAlignment="Left" Margin="72,360,0,0" Text="     Remover fila" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="Remover_TextChanged">
-            <TextBox.Background>
+        <Button x:Name="Removerbutton" Content="Remover Fila"  HorizontalAlignment="Left" Margin="72,355,0,0" VerticalAlignment="Top" Width="106" Click="Removerbutton_Click">
+            <Button.Background>
                 <ImageBrush ImageSource="x.png" AlignmentX="Left" Stretch="Uniform"/>
-            </TextBox.Background>
-        </TextBox>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>
